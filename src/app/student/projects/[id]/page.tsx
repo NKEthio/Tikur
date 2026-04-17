@@ -2,11 +2,16 @@
 
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { mockProjects, mockFeedbacks } from '@/lib/mock-data';
+import { mockProjects, mockFeedbacks, mockSubmissions } from '@/lib/mock-data';
 
 export default function ProjectWorkspace() {
   const { id } = useParams();
   const project = mockProjects.find(p => p.id === id);
+  const feedback = mockFeedbacks.find(f => {
+    const submission = mockSubmissions.find(s => s.id === f.submissionId);
+    return submission?.projectId === id;
+  }) || mockFeedbacks[0];
+
   const [submission, setSubmission] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
 
@@ -69,24 +74,24 @@ export default function ProjectWorkspace() {
             ) : (
               <div className="space-y-4">
                 <div className="p-4 bg-blue-50 text-blue-800 rounded border border-blue-100">
-                  <p className="text-sm font-medium">{mockFeedbacks[0].content}</p>
+                  <p className="text-sm font-medium">{feedback.content}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-50 p-3 rounded">
                     <span className="text-xs text-slate-500 block mb-1 uppercase tracking-wider">Correctness</span>
-                    <div className="font-bold text-lg">{mockFeedbacks[0].correctness}%</div>
+                    <div className="font-bold text-lg">{feedback.correctness}%</div>
                   </div>
                   <div className="bg-slate-50 p-3 rounded">
                     <span className="text-xs text-slate-500 block mb-1 uppercase tracking-wider">Clarity</span>
-                    <div className="font-bold text-lg">{mockFeedbacks[0].clarity}%</div>
+                    <div className="font-bold text-lg">{feedback.clarity}%</div>
                   </div>
                 </div>
 
                 <div>
                   <h3 className="text-sm font-bold text-slate-700 mb-2">Suggestions for Improvement:</h3>
                   <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
-                    {mockFeedbacks[0].suggestions.map((s, i) => (
+                    {feedback.suggestions.map((s, i) => (
                       <li key={i}>{s}</li>
                     ))}
                   </ul>

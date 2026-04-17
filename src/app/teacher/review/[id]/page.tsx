@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { mockSubmissions, mockUsers, mockProjects, mockFeedbacks } from '@/lib/mock-data';
 
 export default function TeacherReview() {
@@ -30,6 +31,9 @@ export default function TeacherReview() {
     <div className="max-w-6xl mx-auto space-y-8">
       <header className="flex justify-between items-center">
         <div>
+          <Link href="/teacher" className="text-blue-600 hover:underline mb-2 inline-block text-sm">
+            ← Back to Dashboard
+          </Link>
           <h1 className="text-3xl font-bold">Review Submission</h1>
           <p className="text-slate-500">{student?.name} &gt; {project?.title}</p>
         </div>
